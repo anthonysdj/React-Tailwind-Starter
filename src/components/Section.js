@@ -5,7 +5,7 @@ const Section = ({ bg, mw, children }) => {
 
     return (
         <div className={`pt-20 pb-20 bg-${bg}`}>
-            <div className={`m-auto max-w-${mw}`}>
+            <div className={`m-auto max-w-screen-${mw}`}>
                 {children}
             </div>
         </div>

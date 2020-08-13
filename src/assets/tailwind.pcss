@@ -24,3 +24,48 @@
     src: url(fonts/gill-sans/GillSans-Medium.woff2) format("woff2"),
         url(fonts/gill-sans/GillSans-Medium.woff) format("woff");
 }
+
+@variants hover {
+    .bg-orange {
+        background-color: #f26f22;
+    }
+
+    .border-orange {
+        border-color: #f26f22;
+    }
+
+    .text-orange {
+        color: #f26f22;
+    }
+
+    .bg-blue {
+        background-color: #17a1a9;
+    }
+
+    .border-blue {
+        border-color: #17a1a9;
+    }
+
+    .text-blue {
+        color: #17a1a9;
+    }
+}
+
+@responsive {
+    .v-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }
+}
+
+body {
+    font-family: "Gill Sans", Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: "Gill Sans", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+}
