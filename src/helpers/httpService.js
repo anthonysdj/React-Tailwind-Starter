@@ -11,9 +11,10 @@ export function httpRequest(url, method, { postdata = {}, headers = {} } = {}) {
     if (!Object.keys(headers).length) headers = httpHeaders();
 
     const methods = ["GET", "POST", "PUT", "DELETE"];
-    if (!methods.includes(method)) {
-        throw new Error("Invalid http method");
+    const includes = function (haystack, needle) {
+        return haystack.indexOf(needle) >= 0;
     }
+    if (!includes(methods, method)) throw new Error("Invalid http method");
 
     let options = {
         method: method,
