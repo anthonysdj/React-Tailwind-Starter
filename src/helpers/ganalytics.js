@@ -1,3 +1,5 @@
+import { gaTid } from "../config/env";
+
 export const gaPush = (pageName, title) => {
 
     if (window.ga === undefined) return;
@@ -65,6 +67,20 @@ const getCookie = cname => {
     return { getValue };
 }
 
+function getGAClientID() {
+    let trackers = window.ga.getAll();
+    let i, len;
+
+    for (i = 0, len = trackers.length; i < len; i += 1) {
+        if (trackers[i].get('trackingId') === gaTid) {
+            let clientid = trackers[i].get('clientId');
+            return clientid;
+        }
+    }
+
+    return null;
+}
+
 export const getGaCid = () => {
     let gaClientId = "";
 
@@ -73,9 +89,14 @@ export const getGaCid = () => {
 
             if (window.ga) {
                 if (typeof window.ga.getAll === "function") {
-                    gaClientId = window.ga.getAll()[0].b.data.values[":clientId"];
-                    window.sessionStorage.removeItem("wv_ga_client_id");
-                    window.sessionStorage.setItem("wv_ga_client_id", gaClientId);
+                    // gaClientId = window.ga.getAll()[0].b.data.values[":clientId"];
+
+                    gaClientId = getGAClientID();
+
+                    if (gaClientId) {
+                        window.sessionStorage.removeItem("wv_ga_client_id");
+                        window.sessionStorage.setItem("wv_ga_client_id", gaClientId);
+                    }
                 }
             }
 

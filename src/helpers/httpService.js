@@ -1,3 +1,5 @@
+import { includes } from ".";
+
 export function httpHeaders() {
     return {
         "Content-Type": "application/json; charset=utf-8",
@@ -7,13 +9,9 @@ export function httpHeaders() {
 
 export function httpRequest(url, method, { postdata = {}, headers = {} } = {}) {
     if (typeof postdata !== "object") throw new Error("Parameter postdata invalid");
-    if (typeof headers !== "object") throw new Error("Parameter headers invalid");
-    if (!Object.keys(headers).length) headers = httpHeaders();
 
     const methods = ["GET", "POST", "PUT", "DELETE"];
-    const includes = function (haystack, needle) {
-        return haystack.indexOf(needle) >= 0;
-    }
+
     if (!includes(methods, method)) throw new Error("Invalid http method");
 
     let options = {
@@ -21,10 +19,17 @@ export function httpRequest(url, method, { postdata = {}, headers = {} } = {}) {
         mode: "cors",
         cache: "no-cache",
         credentials: "same-origin",
-        headers: headers
     }
 
-    if (method === "POST") options.body = JSON.stringify(postdata);
+    if (headers !== 'no-headers') {
+        if (typeof headers !== "object") throw new Error("Parameter headers invalid");
+        if (!Object.keys(headers).length) headers = httpHeaders();
+
+        options.headers = headers;
+        postdata = JSON.stringify(postdata);
+    }
+
+    if (method === "POST") options.body = postdata;
 
     return fetch(url, options).then(async res => {
         const json = await res.json();
